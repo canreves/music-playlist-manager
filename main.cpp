@@ -183,6 +183,52 @@ public:
         cout << "Song moved." << endl;
     }
 
+    void reverseSegment(int L, int R) {
+        if (L < 1 || R > size || L >= R) {
+            cout << "Invalid range." << endl;
+            return;
+        }
+
+        Node* startNode = head;
+        for (int i = 1; i < L; ++i) startNode = startNode->next;
+
+        Node* endNode = head;
+        for (int i = 1; i < R; ++i) endNode = endNode->next;
+
+        Node* before = startNode->prev;
+        Node* after = endNode->next;
+
+        Node* curr = startNode;
+        while (true) {
+            Node* nextNode = curr->next;
+            
+            Node* temp = curr->next;
+            curr->next = curr->prev;
+            curr->prev = temp;
+            
+            if (curr == endNode) break;
+            curr = nextNode;
+        }
+
+        if (L == 1 && R == size) {
+            Node* temp = head;
+            head = tail;
+            tail = temp;
+        } 
+        else {
+            before->next = endNode;
+            endNode->prev = before;
+
+            after->prev = startNode;
+            startNode->next = after;
+
+            if (L == 1) head = endNode;
+            if (R == size) tail = startNode;
+        }
+
+        cout << "Segment reversed." << endl;
+    }
+
 };
 
 int main(){
