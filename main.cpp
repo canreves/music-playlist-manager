@@ -115,6 +115,74 @@ public:
         cout << "Song removed." << endl;
     }
 
+    void play(int id){
+        if (!head){
+            cout << "Playlist is empty." << endl;
+            return;
+        }
+        Node* target = findSong(id);
+        if (!target) {
+            cout << "Not found." << endl;
+            return;
+        }
+        currentSong = target;
+        currentSong->playCount++;
+        cout << "Playing: " << currentSong->songName << endl;
+    }
+
+    void next() {
+        if (!currentSong) {
+            cout << "No song is currently playing." << endl;
+            return;
+        }
+        currentSong = currentSong->next;
+        currentSong->playCount++;
+        cout << "Playing: " << currentSong->songName << endl;
+    }
+
+    void prev() {
+        if (!currentSong) {
+            cout << "No song is currently playing." << endl;
+            return;
+        }
+        currentSong = currentSong->prev;
+        currentSong->playCount++;
+        cout << "Playing: " << currentSong->songName << endl;
+    }
+
+    void moveAfter(int idA, int idB) {
+        Node* nodeA = findSong(idA);
+        Node* nodeB = findSong(idB);
+
+        if (!nodeA || !nodeB) {
+            cout << "Not found." << endl;
+            return;
+        }
+
+        if (idA == idB || size < 2 || nodeB->next == nodeA) {
+            cout << "Move ignored." << endl;
+            return;
+        }
+
+        nodeA->prev->next = nodeA->next;
+        nodeA->next->prev = nodeA->prev;
+        
+        if (nodeA == head) head = nodeA->next;
+        if (nodeA == tail) tail = nodeA->prev;
+
+        Node* nodeC = nodeB->next;
+        
+        nodeB->next = nodeA;
+        nodeA->prev = nodeB;
+        
+        nodeA->next = nodeC;
+        nodeC->prev = nodeA;
+
+        if (nodeB == tail) tail = nodeA;
+
+        cout << "Song moved." << endl;
+    }
+
 };
 
 int main(){
