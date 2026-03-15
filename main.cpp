@@ -54,10 +54,10 @@ public:
         
     }
 
-    void add(int id, string name, string artist, int dur) {
+    void add(int id, string name, string artist, int dur){
         
         if(findSong(id)){
-            cout << "Song already exists.\n";
+            cout << "Song already exists."<<endl;
             return;
         }
 
@@ -76,7 +76,43 @@ public:
             tail = newNode;
         }
         size++;
-        cout << "Song added.\n";
+        cout << "Song added." << endl;
+    }
+
+    void remove(int id){
+        if(!head){
+            cout << "Playlist is empty." << endl;
+            return;
+        }
+
+        Node* target = findSong(id);
+        if(!target){
+            cout << "Not found." << endl;
+            return;
+        }
+
+        if(size == 1){
+            head = tail = currentSong = nullptr;
+        } 
+        else{
+            if(currentSong == target){
+                currentSong = currentSong->next;
+            }
+
+            target->prev->next = target->next;
+            target->next->prev = target->prev;
+
+            if(target == head){
+                head = target->next;
+            }
+            if(target == tail){
+                tail = target->prev;
+            }
+        }
+
+        delete target;
+        size--;
+        cout << "Song removed." << endl;
     }
 
 };
