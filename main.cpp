@@ -266,7 +266,67 @@ public:
 
 int main(){
 
-    cout<<"?????"<<endl;
+    PlaylistManager pm;
+    string line;
+
+
+    while (getline(cin, line)) {
+        if (line.empty()) continue;
+
+        stringstream ss(line);
+        string cmd;
+        ss >> cmd;
+
+        if (cmd == "EXIT") {
+            cout << "Exiting. Goodbye!" << endl;
+            break;
+        } 
+        else if (cmd == "ADD") {
+            int id, dur;
+            string name, artist;
+            ss >> id >> name >> artist >> dur;
+            pm.add(id, name, artist, dur);
+        } 
+        else if (cmd == "REMOVE") {
+            int id;
+            ss >> id;
+            pm.remove(id);
+        } 
+        else if (cmd == "PLAY") {
+            int id;
+            ss >> id;
+            pm.play(id);
+        } 
+        else if (cmd == "NEXT") {
+            pm.next();
+        } 
+        else if (cmd == "PREV") {
+            pm.prev();
+        } 
+        else if (cmd == "MOVE_AFTER") {
+            int a, b;
+            ss >> a >> b;
+            pm.moveAfter(a, b);
+        } 
+        else if (cmd == "REVERSE_SEGMENT") {
+            int l, r;
+            ss >> l >> r;
+            pm.reverseSegment(l, r);
+        } 
+        else if (cmd == "JUMP") {
+            int k;
+            ss >> k;
+            pm.jump(k);
+        } 
+        else if (cmd == "PRINT") {
+            pm.print();
+        } 
+        else {
+            cout << "Invalid command.\n";
+        }
+    }
+
+
     return 0;
 }
 
