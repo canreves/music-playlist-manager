@@ -229,6 +229,39 @@ public:
         cout << "Segment reversed." << endl;
     }
 
+    void jump(int k) {
+        if (k < 0) {
+            cout << "Invalid jump." << endl;
+            return;
+        }
+
+        if (!currentSong) {
+            cout << "No song is currently playing." << endl;
+            return;
+        }
+
+        for (int i = 0; i < k; ++i) {
+            currentSong = currentSong->next;
+        }
+
+        currentSong->playCount++;
+        cout << "Playing: " << currentSong->songName << endl;
+    }
+
+    void print() {
+        cout << "Playlist:";
+        if (head) {
+            Node* curr = head;
+            for (int i = 0; i < size; ++i) {
+                cout << " " << curr->songName;
+                curr = curr->next;
+            }
+        }
+        cout << "\nCurrent: ";
+        if (currentSong) cout << currentSong->songName << endl;
+        else cout << "None" << endl;
+    }
+
 };
 
 int main(){
